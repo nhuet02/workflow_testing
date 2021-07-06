@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: workflow 2
+name: workflow 3
 
 # Controls when the workflow will run
 on:
@@ -22,4 +22,4 @@ jobs:
     steps:
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo "workflow 2 working!"
+        run: echo "workflow 3 working!"
