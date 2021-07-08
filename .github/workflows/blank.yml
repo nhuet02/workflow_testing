@@ -33,6 +33,6 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
       - name: deploy
-        if: ${{ github.ref == 'ref/head/main' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: echo deploy
 
