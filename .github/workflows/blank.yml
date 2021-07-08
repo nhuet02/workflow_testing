@@ -34,5 +34,5 @@ jobs:
           echo test, and deploy your project.
       - name: deploy
         if: ${{ github.ref == 'ref/head/master' }}
-          run: echo deploy
+        run: echo deploy
 
