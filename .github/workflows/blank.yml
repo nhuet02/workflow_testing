@@ -26,6 +26,7 @@ jobs:
           echo ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
           echo ${GITHUB_HEAD_REF}
           echo ${GITHUB_BASE_REF}
+          echo "${{ github.event.pull_request.head.repo.owner.login }}"
 
 
       # Runs a single command using the runners shell
