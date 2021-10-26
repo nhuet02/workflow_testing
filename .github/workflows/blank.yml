@@ -25,7 +25,7 @@ jobs:
           if [[ $GITHUB_REF == refs/pull* ]];
           then
               echo PR
-              echo export AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.repo.full_name }}"
+              echo export AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.head.repo.full_name }}"
               echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_HEAD_REF}
           elif [[ $GITHUB_REF == refs/tags* ]];
           then
@@ -45,8 +45,8 @@ jobs:
           echo ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
           echo ${GITHUB_HEAD_REF}
           echo ${GITHUB_BASE_REF}
-          echo export AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.repo.full_name }}"
-          echo "${{ github.event.pull_request.repo }}"
+          echo export AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.head.repo.full_name }}"
+          echo "${{ github.event.pull_request.head.repo }}"
 
 
       # Runs a single command using the runners shell
