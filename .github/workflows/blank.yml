@@ -20,13 +20,32 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: binder env variables
+        run: |
+          if [[ $GITHUB_REF == refs/pull* ]];
+          then
+              echo PR
+              echo export AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.repo.full_name }}"
+              echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_HEAD_REF}
+          elif [[ $GITHUB_REF == refs/tags* ]];
+          then
+              echo TAG
+              echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
+              echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/tags\//}
+          elif [[ $GITHUB_REF == refs/heads* ]];
+          then
+              echo BRANCH
+              echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
+              echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/heads\//}
+          fi
+
       - name: variables
         run: |
           echo ${GITHUB_REF}
           echo ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
           echo ${GITHUB_HEAD_REF}
           echo ${GITHUB_BASE_REF}
-          echo "${{ github.event.pull_request.head.repo.owner.login }}"
+          echo export AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.repo.full_name }}"
 
 
       # Runs a single command using the runners shell
