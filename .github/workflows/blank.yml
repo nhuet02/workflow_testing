@@ -46,6 +46,7 @@ jobs:
           echo ${GITHUB_HEAD_REF}
           echo ${GITHUB_BASE_REF}
           echo export AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.repo.full_name }}"
+          echo "${{ github.event.pull_request.repo }}"
 
 
       # Runs a single command using the runners shell
