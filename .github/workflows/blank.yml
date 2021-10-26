@@ -24,6 +24,8 @@ jobs:
         run: |
           echo ${GITHUB_REF}
           echo ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
+          echo ${GITHUB_HEAD_REF}
+          echo ${GITHUB_BASE_REF}
 
 
       # Runs a single command using the runners shell
