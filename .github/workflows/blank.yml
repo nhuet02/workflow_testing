@@ -56,7 +56,7 @@ jobs:
           then
               export AUTODOC_NOTEBOOKS_REPO_URL=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
               export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/heads\//}
-
+          fi
       - name: variables
         run: |
           echo ${GITHUB_REF}
