@@ -39,6 +39,23 @@ jobs:
               echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
               echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/heads\//}
           fi
+          # define appropriate env variables to define binder links to notebooks
+          export AUTODOC_BINDER_ENV_GH_REPO_NAME="airbus/scikit-decide"
+          export AUTODOC_BINDER_ENV_GH_BRANCH="binder"
+          # extract notebooks source repo and branch from github variables
+          # depending if it is a tag push, commit push, or PR
+          if [[ $GITHUB_REF == refs/pull* ]];
+          then
+              export AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.head.repo.full_name }}"
+              export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_HEAD_REF}
+          elif [[ $GITHUB_REF == refs/tags* ]];
+          then
+              export AUTODOC_NOTEBOOKS_REPO_URL=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
+              export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/tags\//}
+          elif [[ $GITHUB_REF == refs/heads* ]];
+          then
+              export AUTODOC_NOTEBOOKS_REPO_URL=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
+              export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/heads\//}
 
       - name: variables
         run: |
