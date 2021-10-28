@@ -20,52 +20,33 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: binder env variables
+      - name: Set env variables for github+binder links in doc
         run: |
-          # this is a comment
+          # binder environment repo and branch
+          AUTODOC_BINDER_ENV_GH_REPO_NAME="airbus/scikit-decide"
+          AUTODOC_BINDER_ENV_GH_BRANCH="binder"
+          # notebooks source repo and branch depending if it is a commit push or a PR
           if [[ $GITHUB_REF == refs/pull* ]];
           then
-              echo PR
-              echo export AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.head.repo.full_name }}"
-              echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_HEAD_REF}
-          elif [[ $GITHUB_REF == refs/tags* ]];
-          then
-              echo TAG
-              echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
-              echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/tags\//}
+              AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.head.repo.full_name }}"
+              AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_HEAD_REF}
           elif [[ $GITHUB_REF == refs/heads* ]];
           then
-              echo BRANCH
-              echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
-              echo export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/heads\//}
+              AUTODOC_NOTEBOOKS_REPO_URL=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
+              AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/heads\//}
           fi
-          # define appropriate env variables to define binder links to notebooks
-          export AUTODOC_BINDER_ENV_GH_REPO_NAME="airbus/scikit-decide"
-          export AUTODOC_BINDER_ENV_GH_BRANCH="binder"
-          # extract notebooks source repo and branch from github variables
-          # depending if it is a tag push, commit push, or PR
-          if [[ $GITHUB_REF == refs/pull* ]];
-          then
-              export AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.head.repo.full_name }}"
-              export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_HEAD_REF}
-          elif [[ $GITHUB_REF == refs/tags* ]];
-          then
-              export AUTODOC_NOTEBOOKS_REPO_URL=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
-              export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/tags\//}
-          elif [[ $GITHUB_REF == refs/heads* ]];
-          then
-              export AUTODOC_NOTEBOOKS_REPO_URL=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
-              export AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/heads\//}
-          fi
-      - name: variables
-        run: |
-          echo ${GITHUB_REF}
-          echo ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
-          echo ${GITHUB_HEAD_REF}
-          echo ${GITHUB_BASE_REF}
-          echo export AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.head.repo.full_name }}"
-          echo "${{ github.event.pull_request.head.repo }}"
+          # export in GITHUB_ENV for next steps
+          echo "AUTODOC_BINDER_ENV_GH_REPO_NAME=${AUTODOC_BINDER_ENV_GH_REPO_NAME}" >> $GITHUB_ENV
+          echo "AUTODOC_BINDER_ENV_GH_BRANCH=${AUTODOC_BINDER_ENV_GH_BRANCH}" >> $GITHUB_ENV
+          echo "AUTODOC_NOTEBOOKS_REPO_URL=${AUTODOC_NOTEBOOKS_REPO_URL}" >> $GITHUB_ENV
+          echo "AUTODOC_NOTEBOOKS_BRANCH=${AUTODOC_NOTEBOOKS_BRANCH}" >> $GITHUB_ENV
 
+      - name: read binder env
+        run: |
+          echo ${AUTODOC_BINDER_ENV_GH_REPO_NAME}
+          echo ${AUTODOC_BINDER_ENV_GH_BRANCH}
+          echo ${AUTODOC_NOTEBOOKS_REPO_URL}
+          echo ${AUTODOC_NOTEBOOKS_BRANCH}
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
