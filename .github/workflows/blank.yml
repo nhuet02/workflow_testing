@@ -5,7 +5,7 @@ name: CI 🔨
 # Controls when the workflow will run
 on:
   push:
-    tags-ignore:
+    branches:
       - "*"
   pull_request:
   workflow_dispatch:
