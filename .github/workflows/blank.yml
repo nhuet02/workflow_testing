@@ -70,3 +70,4 @@ jobs:
         run: |
           git branch
           git tag
+          git remote
