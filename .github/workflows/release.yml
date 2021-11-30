@@ -40,7 +40,7 @@ jobs:
         uses: jupyterhub/repo2docker-action@master
         with:
           NO_PUSH: true
-          MYBINDERORG_TAG: ${{ BINDER_TAG }}
+          MYBINDERORG_TAG: ${{ env.BINDER_TAG }}
 
   build-docs:
     runs-on: ubuntu-latest
