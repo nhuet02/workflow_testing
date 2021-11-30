@@ -53,7 +53,9 @@ jobs:
         run: |
           git fetch origin binder
           BINDER_TAG="binder_${AUTODOC_NOTEBOOKS_BRANCH}"
-          git tag -a ${BINDER_TAG} origin/binder -m "Release binder env ${AUTODOC_NOTEBOOKS_BRANCH}" --author="Binder Bot <binder@bot.com>"
+          git config user.name "Binder Bot"
+          git config user.email "binder@bot.com"
+          git tag -a ${BINDER_TAG} origin/binder -m "Release binder env ${AUTODOC_NOTEBOOKS_BRANCH}"
           git push origin ${BINDER_TAG}
 
       - name: deploy
