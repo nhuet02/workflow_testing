@@ -66,3 +66,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         run: echo deploy
 
+      - name: tag
+        run: |
+          git branch
+          git tag
