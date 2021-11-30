@@ -68,8 +68,8 @@ jobs:
 
       - name: tag
         run: |
-          git branch
+          git branch --all
           git tag
           git remote
           git fetch origin toto
-          git branch
+          git branch --all
