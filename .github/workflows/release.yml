@@ -48,16 +48,29 @@ jobs:
       - name: Run a one-line script
         run: echo  ${{ github.ref }}
 
-      # Runs a set of commands using the runners shell
-      - name: Tag binder branch
+  create-binder-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get scikit-decide release version and define new binder env tag
         run: |
-          git fetch origin binder
-          BINDER_TAG="binder_${AUTODOC_NOTEBOOKS_BRANCH}"
+          SKDECIDE_VERSION=${GITHUB_REF/refs\/tags\/v/}
+          echo "SKDECIDE_VERSION=${SKDECIDE_VERSION}" >> $GITHUB_ENV
+          echo "BINDER_TAG=binder_v${SKDECIDE_VERSION}" >> $GITHUB_ENV
+
+      # Checks-out binder branch
+      - uses: actions/checkout@v2
+        with:
+          ref: binder
+
+      - name: Define git identity
+
+
+      - name: Update scikit-decide dependency and tag the environement
+        run: |
+          sed -e "s/scikit-decide\[all\]==.*/scikit-decide\[all\]==${SKDECIDE_VERSION}/" environment.yml > environment.yml.new
+          mv environment.yml.new environment.yml
           git config user.name "Binder Bot"
           git config user.email "binder@bot.com"
-          git tag -a ${BINDER_TAG} origin/binder -m "Release binder env ${AUTODOC_NOTEBOOKS_BRANCH}"
+          git commit environment.yml -m "Update scikit-decide dependency"
+          git tag -a ${BINDER_TAG} -m "Release binder environment for scikit-decide ${SKDECIDE_VERSION}"
           git push origin ${BINDER_TAG}
-
-      - name: deploy
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: echo deploy
