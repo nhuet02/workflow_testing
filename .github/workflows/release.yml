@@ -62,9 +62,6 @@ jobs:
         with:
           ref: binder
 
-      - name: Define git identity
-
-
       - name: Update scikit-decide dependency and tag the environement
         run: |
           sed -e "s/scikit-decide\[all\]==.*/scikit-decide\[all\]==${SKDECIDE_VERSION}/" environment.yml > environment.yml.new
