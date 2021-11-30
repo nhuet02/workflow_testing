@@ -36,6 +36,15 @@ jobs:
           git tag -a ${BINDER_TAG} -m "Release binder environment for scikit-decide ${SKDECIDE_VERSION}"
           git push origin ${BINDER_TAG}
 
+          echo ${{ github.event.ref }}
+
+      - name: cache binder build on mybinder.org
+          uses: jupyterhub/repo2docker-action@master
+          with:
+            NO_PUSH: true
+            MYBINDERORG_TAG: ${BINDER_TAG}
+
+            
   build-docs:
     runs-on: ubuntu-latest
     env:
