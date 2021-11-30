@@ -26,15 +26,8 @@ jobs:
           AUTODOC_BINDER_ENV_GH_REPO_NAME="airbus/scikit-decide"
           AUTODOC_BINDER_ENV_GH_BRANCH="binder"
           # notebooks source repo and branch depending if it is a commit push or a PR
-          if [[ $GITHUB_REF == refs/pull* ]];
-          then
-              AUTODOC_NOTEBOOKS_REPO_URL="${GITHUB_SERVER_URL}/${{ github.event.pull_request.head.repo.full_name }}"
-              AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_HEAD_REF}
-          elif [[ $GITHUB_REF == refs/heads* ]];
-          then
-              AUTODOC_NOTEBOOKS_REPO_URL=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
-              AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/heads\//}
-          fi
+          AUTODOC_NOTEBOOKS_REPO_URL=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
+          AUTODOC_NOTEBOOKS_BRANCH=${GITHUB_REF/refs\/tags\//}
           # export in GITHUB_ENV for next steps
           echo "AUTODOC_BINDER_ENV_GH_REPO_NAME=${AUTODOC_BINDER_ENV_GH_REPO_NAME}" >> $GITHUB_ENV
           echo "AUTODOC_BINDER_ENV_GH_BRANCH=${AUTODOC_BINDER_ENV_GH_BRANCH}" >> $GITHUB_ENV
@@ -56,11 +49,13 @@ jobs:
         run: echo  ${{ github.ref }}
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Tag binder branch
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          git fetch origin binder
+          BINDER_TAG="binder_${AUTODOC_NOTEBOOKS_BRANCH}"
+          git tag -a ${BINDER_TAG} origin/binder -m "Release binder env ${AUTODOC_NOTEBOOKS_BRANCH}"
+          git push origin ${BINDER_TAG}
+
       - name: deploy
         if: ${{ github.ref == 'refs/heads/main' }}
         run: echo deploy
-
