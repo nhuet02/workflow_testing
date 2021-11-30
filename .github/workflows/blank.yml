@@ -53,6 +53,8 @@ jobs:
           echo ${AUTODOC_NOTEBOOKS_REPO_URL}
           echo ${AUTODOC_NOTEBOOKS_BRANCH}
 
+          echo nb_branch: ${{ env.AUTODOC_NOTEBOOKS_BRANCH }}
+
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo  ${{ github.ref }}
@@ -65,11 +67,3 @@ jobs:
       - name: deploy
         if: ${{ github.ref == 'refs/heads/main' }}
         run: echo deploy
-
-      - name: tag
-        run: |
-          git branch --all
-          git tag
-          git remote
-          git fetch origin toto
-          git branch --all
