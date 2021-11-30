@@ -6,7 +6,7 @@ dependencies:
     - matplotlib
     - ipywidgets
     - ipympl
-    - scikit-decide[all]==dev
+    - scikit-decide[all]==0.7.0
     - nbgitpuller
     - pyvirtualdisplay
     - PyOpenGL-accelerate
