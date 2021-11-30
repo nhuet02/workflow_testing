@@ -71,3 +71,5 @@ jobs:
           git branch
           git tag
           git remote
+          git fetch origin toto
+          git branch
