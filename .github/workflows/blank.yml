@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-#          ref: binder
+          ref: binder
 
       - name: Tests
         run: |
@@ -35,18 +35,12 @@ jobs:
           echo ${{ github.repository }}
           echo $GITHUB_REPOSITORY
 
+          ls
           git branch
-          git reflog -1
-          git checkout binder
+          git checkout ${{ github.ref }}
           git branch
-          git reflog -1
-          git checkout pull/7/merge
-          git branch
-          git reflog -1
-          git checkout refs/remotes/pull/7/merge
-          git branch
-          git reflog -1
-
+          ls
+          
       - name: Set env variables for github+binder links in doc
         run: |
           # binder environment repo and branch
