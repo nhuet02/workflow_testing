@@ -22,6 +22,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Tests
+        run: |
+          echo $GITHUB_REF
+          echo ${{ github.ref }}
+          echo ${{ github.head_ref }}
+          echo ${{ github.base_ref }}
+          echo ${{ github.repository }}
+          echo $GITHUB_REPOSITORY
+
       - name: Set env variables for github+binder links in doc
         run: |
           # binder environment repo and branch
@@ -67,15 +76,3 @@ jobs:
       - name: deploy
         if: ${{ github.ref == 'refs/heads/main' }}
         run: echo deploy
-
-  create_binder_env:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: build docker image as used by binder
-        uses: jupyterhub/repo2docker-action@master
-        with:
-          NO_PUSH: true
-          IMAGE_NAME: "scikit-decide-binder"
-      - name: list docker images
-        run: docker image ls
