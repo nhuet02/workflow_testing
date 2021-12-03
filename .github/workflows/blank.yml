@@ -30,10 +30,6 @@ jobs:
           git branch
           ls
 
-          git checkout pull/7/merge
-          git branch
-          ls
-
           LOCAL_REF=${GITHUB_REF/refs\//}
           echo LOCAL_REF=$LOCAL_REF
           git checkout ${LOCAL_REF}
