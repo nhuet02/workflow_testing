@@ -21,6 +21,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+#          ref: binder
 
       - name: Tests
         run: |
@@ -33,12 +36,20 @@ jobs:
           echo $GITHUB_REPOSITORY
 
           git log
+          git branch
+          git reflog
           git checkout binder
           git log
+          git branch
+          git reflog
           git checkout pull/7/merge
           git log
+          git branch
+          git reflog
           git checkout refs/remotes/pull/7/merge
           git log
+          git branch
+          git reflog
 
       - name: Set env variables for github+binder links in doc
         run: |
