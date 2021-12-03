@@ -35,13 +35,11 @@ jobs:
           ls
 
           LOCAL_REF=${GITHUB_REF/refs//}
+          echo LOCAL_REF=$LOCAL_REF
           git checkout ${LOCAL_REF}
           git branch
           ls
 
-          git checkout ${{ github.head_ref }}
-          git branch
-          ls
 
 
 
