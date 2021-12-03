@@ -36,14 +36,18 @@ jobs:
 
           echo "******** BINDER *********"
           git checkout binder
-          git branch
           ls
+          echo ${{ github.sha }} > sha1.txt
+          git add sha1.txt
+          git config user.name "Binder Bot"
+          git commit -m "edit sha1"
+          git push origin binder
+
 
           echo "******** CURRENT REF *********"
           LOCAL_REF=${GITHUB_REF/refs\//}
           echo LOCAL_REF=$LOCAL_REF
           git checkout ${LOCAL_REF}
-          git branch
           ls
 
       - name: Set env variables for github+binder links in doc
