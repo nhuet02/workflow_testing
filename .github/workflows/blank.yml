@@ -27,7 +27,14 @@ jobs:
 
       - name: Tests
         run: |
-          echo ${{ github.event.ref }}
+          git checkout binder
+          git branch
+          ls
+          git checkout ${{ github.ref }}
+          git branch
+          ls
+
+
           echo $GITHUB_REF
           echo ${{ github.ref }}
           echo ${{ github.ref_name }}
