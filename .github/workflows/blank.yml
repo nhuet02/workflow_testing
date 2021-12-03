@@ -23,24 +23,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          ref: binder
 
       - name: Tests
         run: |
-          git checkout binder
-          git branch
-          ls
-
-          LOCAL_REF=${GITHUB_REF/refs\//}
-          echo LOCAL_REF=$LOCAL_REF
-          git checkout ${LOCAL_REF}
-          git branch
-          ls
-
-
-
-
-
-
           echo $GITHUB_REF
           echo ${{ github.ref }}
           echo ${{ github.ref_name }}
@@ -49,9 +35,13 @@ jobs:
           echo ${{ github.repository }}
           echo $GITHUB_REPOSITORY
 
-          ls
+          git checkout binder
           git branch
-          git checkout ${{ github.ref }}
+          ls
+
+          LOCAL_REF=${GITHUB_REF/refs\//}
+          echo LOCAL_REF=$LOCAL_REF
+          git checkout ${LOCAL_REF}
           git branch
           ls
 
