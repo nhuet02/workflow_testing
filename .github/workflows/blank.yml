@@ -27,6 +27,7 @@ jobs:
 
       - name: Tests
         run: |
+          echo ${{ github.event.ref }}
           echo $GITHUB_REF
           echo ${{ github.ref }}
           echo ${{ github.ref_name }}
@@ -40,7 +41,7 @@ jobs:
           git checkout ${{ github.ref }}
           git branch
           ls
-          
+
       - name: Set env variables for github+binder links in doc
         run: |
           # binder environment repo and branch
