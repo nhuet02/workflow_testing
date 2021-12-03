@@ -29,9 +29,22 @@ jobs:
           git checkout binder
           git branch
           ls
-          git checkout ${{ github.ref }}
+
+          git checkout pull/7/merge
           git branch
           ls
+
+          LOCAL_REF=${GITHUB_REF/refs//}
+          git checkout ${LOCAL_REF}
+          git branch
+          ls
+
+          git checkout ${{ github.head_ref }}
+          git branch
+          ls
+
+
+
 
 
           echo $GITHUB_REF
